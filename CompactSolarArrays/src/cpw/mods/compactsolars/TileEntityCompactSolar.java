@@ -10,21 +10,10 @@
  ******************************************************************************/
 package cpw.mods.compactsolars;
 
-import ic2.api.Direction;
-import ic2.api.item.ElectricItem;
+import ic2.api.energy.prefab.BasicSource;
 import ic2.api.item.IElectricItem;
 import ic2.api.tile.IWrenchable;
-import ic2.api.energy.EnergyNet;
-import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileUnloadEvent;
-import ic2.api.energy.prefab.BasicSource;
-import ic2.api.energy.tile.IEnergySource;
-import ic2.api.network.INetworkDataProvider;
-import ic2.api.network.INetworkUpdateListener;
-import ic2.api.network.NetworkHelper;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,8 +23,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.common.MinecraftForge;
 
 public class TileEntityCompactSolar extends TileEntity implements IInventory, IWrenchable {
     private BasicSource energySource;
@@ -57,7 +44,8 @@ public class TileEntityCompactSolar extends TileEntity implements IInventory, IW
         this.type = type;
         this.inventory = new ItemStack[1];
         this.tick = random.nextInt(64);
-        this.energySource = new BasicSource(this, type.maxStorage, type.ordinal() + 1);
+//        this.energySource = new BasicSource(this, type.maxStorage, type.ordinal() + 1);
+        this.energySource = new EveryTickEnergySource(this, type.maxStorage, type.ordinal() + 1, this.type.outputPacketSize);
     }
 
     @Override
